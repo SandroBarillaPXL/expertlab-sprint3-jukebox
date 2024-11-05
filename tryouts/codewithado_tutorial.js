@@ -22,7 +22,7 @@ const spotifyApi = new SpotifyWebApi({
 
 // Route handler for the login endpoint.
 app.get('/login', (req, res) => {
-    const scopes = ['user-read-private', 'user-read-email', 'user-read-playback-state', 'user-modify-playback-state'];
+    const scopes = ['user-read-private', 'user-read-email', 'user-read-playback-state', 'user-modify-playback-state', 'streaming'];
     res.redirect(spotifyApi.createAuthorizeURL(scopes));
 });
 
@@ -45,6 +45,11 @@ app.get('/callback', (req, res) => {
         // Set the access token and refresh token on the Spotify API object.
         spotifyApi.setAccessToken(accessToken);
         spotifyApi.setRefreshToken(refreshToken);
+        
+        // Logging tokens can be a security risk; this should be avoided in production.
+        console.log('The access token is ' + accessToken);
+        console.log('The refresh token is ' + refreshToken);
+
         res.send('Login successful! You can now use the /search and /play endpoints.');
 
         // Refresh the access token periodically before it expires.
@@ -75,6 +80,16 @@ app.get('/search', (req, res) => {
 // Route handler for the play endpoint.
 app.get('/play', (req, res) => {
     const { uri } = req.query;
+
+    // FIX DEVICE SELECTION
+    spotifyApi.transferMyPlayback(deviceIds)
+    .then(function() {
+    console.log('Transfering playback to ' + deviceIds);
+    }, function(err) {
+    //if the user making the request is non-premium, a 403 FORBIDDEN response code will be returned
+    console.log('Something went wrong!', err);
+    });
+
     spotifyApi.play({ uris: [uri] }).then(() => {
         res.send('Playback started');
     }).catch(err => {
@@ -82,6 +97,7 @@ app.get('/play', (req, res) => {
         res.send('Error occurred during playback');
     });
 });
+
 
 console.log(`Listening at http://localhost:${port}`);
 app.listen(port)

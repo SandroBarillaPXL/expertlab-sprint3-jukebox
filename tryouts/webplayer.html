@@ -7,12 +7,16 @@ https://developer.spotify.com/documentation/web-playback-sdk/tutorials/getting-s
 </head>
 <body>
     <h1>Spotify Web Playback SDK Quick Start</h1>
+    <button id="previous">Previous</button>
     <button id="togglePlay">Toggle Play</button>
-
+    <button id="next">Next</button>
+    <br><br>
+    <button id="play">Play</button>
+    <button id="pause">Pause</button>
     <script src="https://sdk.scdn.co/spotify-player.js"></script>
     <script>
         window.onSpotifyWebPlaybackSDKReady = () => {
-            const token = 'foobar';
+            const token = "foobar" // TODO
             const player = new Spotify.Player({
                 name: 'Web Playback SDK Quick Start Player',
                 getOAuthToken: cb => { cb(token); },
@@ -43,6 +47,22 @@ https://developer.spotify.com/documentation/web-playback-sdk/tutorials/getting-s
 
             document.getElementById('togglePlay').onclick = function() {
               player.togglePlay();
+            };
+
+            document.getElementById('next').onclick = function() {
+              player.nextTrack();
+            };
+
+            document.getElementById('previous').onclick = function() {
+              player.previousTrack();
+            };
+
+            document.getElementById('play').onclick = function() {
+              player.resume();
+            };
+
+            document.getElementById('pause').onclick = function() {
+              player.pause();
             };
 
             player.connect();
