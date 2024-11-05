@@ -14,5 +14,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "spotify-web-api-node": "^5.0.2"
-  }
+  },
+  "type": "module",
+  "types": "module"
 }
