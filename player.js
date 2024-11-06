@@ -4,6 +4,11 @@ const apiUrl = "http://localhost:8888"
 const params = new URLSearchParams(window.location.search);
 const token = params.get('access_token');
 
+const seekBar = document.getElementById('progress-bar');
+const currentTime = document.getElementById('current-time');
+const durationTime = document.getElementById('duration');
+let trackDuration = 0; // Store duration of the current track in milliseconds
+
 if (token) {
     localStorage.setItem('spotifyAccessToken', token);
 }
@@ -59,10 +64,17 @@ window.onSpotifyWebPlaybackSDKReady = () => {
 
         // Access the current track from the playback state
         const currentTrack = state.track_window.current_track;
+        trackDuration = currentTrack.duration_ms;
 
         document.getElementById('player-song').innerText = currentTrack.name;
         document.getElementById('player-artist').innerText = currentTrack.artists[0].name;
         document.getElementById('player-image').src = currentTrack.album.images[0].url;
+
+        // Update the duration text in minutes and seconds
+        durationTime.innerText = formatTime(trackDuration);
+
+        // Update seek bar position
+        updateSeekBar(state.position, trackDuration); 
     });
 
     document.getElementById('togglePlay').onclick = function() {
@@ -90,4 +102,32 @@ window.onSpotifyWebPlaybackSDKReady = () => {
     }
 
     player.connect();
+
+    // Update seek bar position every second
+    setInterval(() => {
+        player.getCurrentState().then(state => {
+            if (!state) return;
+            updateSeekBar(state.position, trackDuration);
+        });
+    }, 1000);
+
+    // Event listener for changing the seek bar
+    seekBar.addEventListener('input', (e) => {
+        const newPosition = (e.target.value / 100) * trackDuration;
+        player.seek(newPosition);
+    });
+
+    // Update seek bar UI based on the current track position
+    function updateSeekBar(position, duration) {
+        const percentage = (position / duration) * 100;
+        seekBar.value = percentage;
+        currentTime.innerText = formatTime(position);
     }
+}
+
+// Format time from milliseconds to MM:SS
+function formatTime(ms) {
+    const minutes = Math.floor(ms / 60000);
+    const seconds = Math.floor((ms % 60000) / 1000).toString().padStart(2, '0');
+    return `${minutes}:${seconds}`;
+}
