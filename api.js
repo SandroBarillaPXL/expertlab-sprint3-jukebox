@@ -9,7 +9,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const apiPort = 8888
-const apiUrl = process.env.API_URL || `http://localhost:${port}`;
+const apiUrl = process.env.API_URL || `http://localhost:${apiPort}`;
 const clientUrl = process.env.CLIENT_URL || 'http://localhost:5500';
 
 const app = express();
