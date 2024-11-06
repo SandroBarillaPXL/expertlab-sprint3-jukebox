@@ -58,6 +58,7 @@ app.get('/callback', (req, res) => {
             const data = await spotifyApi.refreshAccessToken();
             const accessTokenRefreshed = data.body['access_token'];
             spotifyApi.setAccessToken(accessTokenRefreshed);
+            console.log('The access token has been refreshed at ' + new Date());
         }, expiresIn / 2 * 1000); // Refresh halfway before expiration.
 
     }).catch(error => {
