@@ -1,4 +1,4 @@
-const serverUrl = 'http://localhost:8888';
+const apiUrl = "http://localhost:8888"
 
 // Extract token from URL and store it in localStorage
 const params = new URLSearchParams(window.location.search);
@@ -11,7 +11,7 @@ if (token) {
 window.onload = function() {
     const storedToken = localStorage.getItem('spotifyAccessToken');
     if (!storedToken) {
-        window.location = `${serverUrl}/login`;
+        window.location = `${apiUrl}/login`;
     }
 };
 
@@ -65,13 +65,13 @@ window.onSpotifyWebPlaybackSDKReady = () => {
 
     document.getElementById('search').onclick = async () => {
         const searchQuery = document.getElementById('song-search').value;
-        const trackUri = await fetch(`${serverUrl}/search?q=${searchQuery}`)
+        const trackUri = await fetch(`${apiUrl}/search?q=${searchQuery}`)
             .then(response => response.json())
             .then(data => data.uri);
 
         const deviceId = localStorage.getItem('device_id'); // Retrieve device ID
 
-        fetch(`${serverUrl}/play?uri=${trackUri}&device_id=${deviceId}`); // Pass device ID to backend
+        fetch(`${apiUrl}/play?uri=${trackUri}&device_id=${deviceId}`); // Pass device ID to backend
     };
 
     player.connect();
