@@ -8,8 +8,11 @@ if (token) {
     localStorage.setItem('spotifyAccessToken', token);
 }
 
-document.getElementById('login').onclick = function() {
-    window.location = `${serverUrl}/login`;
+window.onload = function() {
+    const storedToken = localStorage.getItem('spotifyAccessToken');
+    if (!storedToken) {
+        window.location = `${serverUrl}/login`;
+    }
 };
 
 window.onSpotifyWebPlaybackSDKReady = () => {
@@ -60,11 +63,6 @@ window.onSpotifyWebPlaybackSDKReady = () => {
       player.previousTrack();
     };
 
-
-    document.getElementById('play').onclick = async () => {
-        player.resume();
-    };
-
     document.getElementById('search').onclick = async () => {
         const searchQuery = document.getElementById('song-search').value;
         const trackUri = await fetch(`${serverUrl}/search?q=${searchQuery}`)
@@ -74,10 +72,6 @@ window.onSpotifyWebPlaybackSDKReady = () => {
         const deviceId = localStorage.getItem('device_id'); // Retrieve device ID
 
         fetch(`${serverUrl}/play?uri=${trackUri}&device_id=${deviceId}`); // Pass device ID to backend
-    };
-
-    document.getElementById('pause').onclick = function() {
-      player.pause();
     };
 
     player.connect();
