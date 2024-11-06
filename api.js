@@ -85,20 +85,6 @@ app.get('/search', (req, res) => {
     });
 });
 
-// ## SONG INFO ##
-app.get('/song', (req, res) => {
-    spotifyApi.getMyCurrentPlayingTrack()
-    .then(function(data) {
-        console.log('Now playing: ' + data.body.item.name + ' by ' + data.body.item.artists[0].name);
-        res.send({
-            name: data.body.item.name,
-            artists: data.body.item.artists.map(artist => artist.name).join(', ')
-        });
-    }, function(err) {
-    console.log('Something went wrong!', err);
-  });
-});
-
 // ## PLAY ##
 app.get('/play', (req, res) => {
     const { uri, device_id } = req.query;

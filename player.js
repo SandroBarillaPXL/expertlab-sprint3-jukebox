@@ -51,6 +51,20 @@ window.onSpotifyWebPlaybackSDKReady = () => {
         console.error(message);
     });
 
+    player.addListener('player_state_changed', (state) => {
+        if (!state) {
+            console.error("Player state is undefined");
+            return;
+        }
+
+        // Access the current track from the playback state
+        const currentTrack = state.track_window.current_track;
+
+        document.getElementById('player-song').innerText = currentTrack.name;
+        document.getElementById('player-artist').innerText = currentTrack.artists[0].name;
+        document.getElementById('player-image').src = currentTrack.album.images[0].url;
+    });
+
     document.getElementById('togglePlay').onclick = function() {
       player.togglePlay();
     };
@@ -73,14 +87,7 @@ window.onSpotifyWebPlaybackSDKReady = () => {
         // play song uri on device
         const deviceId = localStorage.getItem('device_id'); // Retrieve device ID
         fetch(`${apiUrl}/play?uri=${trackUri}&device_id=${deviceId}`); // Pass device ID to backend
-
-        // get song info and display
-        const songInfo = await fetch(`${apiUrl}/song`)
-            .then(response => response.json());
-        const { name, artists } = songInfo;
-        document.getElementById('player-song').innerText = name;
-        document.getElementById('player-artist').innerText = artists;
-    };
+    }
 
     player.connect();
-}
+    }
