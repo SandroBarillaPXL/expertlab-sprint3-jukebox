@@ -4,16 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jukebox</title>
-    <script src="script.js"></script>
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+    <script src="player.js" defer></script>
 </head>
 <body>
     <div id="music-player">
         <div id="controls">
+            <h1>Spotify Web Playback SDK</h1>
+            <button id="login">Login with Spotify</button>
+            <br><br>
+            <input type="text" id="song-search" placeholder="Search for a song">
+            <button id="search">Search and start</button>
+            <br><br>
+            <button id="previous">Previous</button>
+            <button id="togglePlay">Toggle Play</button>
+            <button id="next">Next</button>
+            <br><br>
             <button id="play">Play</button>
             <button id="pause">Pause</button>
-            <button id="stop">Stop</button>
-            <button id="next">Next</button>
-            <button id="prev">Previous</button>
         </div>
     </div>
 </body>
