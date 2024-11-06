@@ -9,8 +9,21 @@
 </head>
 <body>
     <div id="music-player">
+        <div id="player">
+            <div id="player-info">
+                <img id="player-image" src="imgs/cover.png" alt="Album Artwork" style="width: 200px;;">
+                <div id="player-details">
+                    <h2 id="player-song">Song Name</h2>
+                    <h3 id="player-artist">Artist Name</h3>
+                </div>
+            </div>
+            <div id="player-controls">
+                <div id="player-progress">
+                    <input type="range" id="progress-bar" min="0" max="100" value="0">
+                    <span id="progress-time">0:00</span>
+                </div>
+            </div>
         <div id="controls">
-            <h1>Spotify Web Playback SDK</h1>
             <input type="text" id="song-search" placeholder="Search for a song">
             <button id="search">Search and start</button>
             <br><br>

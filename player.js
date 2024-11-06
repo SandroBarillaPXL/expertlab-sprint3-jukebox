@@ -64,14 +64,22 @@ window.onSpotifyWebPlaybackSDKReady = () => {
     };
 
     document.getElementById('search').onclick = async () => {
+        // get uri of song
         const searchQuery = document.getElementById('song-search').value;
         const trackUri = await fetch(`${apiUrl}/search?q=${searchQuery}`)
             .then(response => response.json())
             .then(data => data.uri);
 
+        // play song uri on device
         const deviceId = localStorage.getItem('device_id'); // Retrieve device ID
-
         fetch(`${apiUrl}/play?uri=${trackUri}&device_id=${deviceId}`); // Pass device ID to backend
+
+        // get song info and display
+        const songInfo = await fetch(`${apiUrl}/song`)
+            .then(response => response.json());
+        const { name, artists } = songInfo;
+        document.getElementById('player-song').innerText = name;
+        document.getElementById('player-artist').innerText = artists;
     };
 
     player.connect();
