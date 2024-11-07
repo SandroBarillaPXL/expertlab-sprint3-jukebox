@@ -6,32 +6,26 @@
     <title>Jukebox</title>
     <script src="https://sdk.scdn.co/spotify-player.js"></script>
     <script src="player.js" type="module" defer></script>
+    <link rel="icon" href="imgs/favicon.png" type="image/x-icon">
 </head>
 <body>
     <div id="music-player">
         <div id="player">
-            <div id="player-info">
-                <img id="player-image" src="imgs/cover.png" alt="Album Artwork" style="width: 200px;;">
-                <div id="player-details">
-                    <h2 id="player-song">Song Name</h2>
-                    <h3 id="player-artist">Artist Name</h3>
-                </div>
-            </div>
-            <div id="player-controls">
-                <div id="player-progress">
-                    <input type="range" id="progress-bar" min="0" max="100" value="0">
-                    <p id="current-time"></p>
-                    <p id="duration"></p>
-                </div>
-            </div>
+            <img id="player-image" src="imgs/cover.png" alt="Album Artwork" style="width: 200px;;">
+            <h2 id="player-song">Song Name</h2>
+            <h3 id="player-artist">Artist Name</h3>
+            <span id="current-time">0:00</span><input type="range" id="progress-bar" min="0" max="100" value="0"><span id="duration">0:00</span>
+        </div>
         <div id="controls">
-            <input type="text" id="song-search" placeholder="Search for a song">
-            <button id="search">Search and start</button>
-            <br><br>
             <button id="previous">Previous</button>
             <button id="togglePlay">Toggle Play</button>
-            <button id="next">Next</button>
+            <button id="next">Next</button>            
+            <br><br>
+            <input type="text" id="song-search" placeholder="Search for a song">
+            <input type="number" id="search-limit" placeholder="Limit (default is 3)">
+            <button id="search">Search</button>
         </div>
+        <div id="search-results"></div>
     </div>
 </body>
 </html>

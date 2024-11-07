@@ -52,10 +52,6 @@ app.get('/callback', (req, res) => {
         // Set the access token and refresh token on the Spotify API object.
         spotifyApi.setAccessToken(accessToken);
         spotifyApi.setRefreshToken(refreshToken);
-        
-        // Logging tokens can be a security risk; this should be avoided in production.
-        // console.log('The access token is ' + accessToken);
-        // console.log('The refresh token is ' + refreshToken);
 
         res.redirect(`${clientUrl}?access_token=${accessToken}`);
 
@@ -74,11 +70,11 @@ app.get('/callback', (req, res) => {
 
 // ## SEARCH ##
 app.get('/search', (req, res) => {
-    const { q } = req.query;
+    const { q, n } = req.query;
     spotifyApi.searchTracks(q)
     .then(searchData => {
-        const trackUri = searchData.body.tracks.items[0].uri;
-        res.send({ uri: trackUri });
+        const trackUris = searchData.body.tracks.items.slice(0, n).map(track => track.uri);
+        res.send({ uris: trackUris });
     }).catch(err => {
         console.error('Search Error:', err);
         res.send('Error occurred during search');
@@ -94,6 +90,21 @@ app.get('/play', (req, res) => {
     .catch(err => {
         console.error('Play Error:', err);
         res.send('Error occurred during playback');
+    });
+});
+
+// ## SONG INFO ##
+app.get('/song', (req, res) => {
+    const uri = req.query.uri;
+    spotifyApi.getTrack(uri)
+    .then(songData => {
+        const { name, artists, album, duration_ms } = songData.body;
+        const imgUrl = album.images[0].url;
+        const songInfo = { name, artists, album, duration_ms, imgUrl};
+        res.send({songInfo: songInfo});
+    }).catch(err => {
+        console.error('Song Info Error:', err);
+        res.send('Error occurred during song info retrieval');
     });
 });
 

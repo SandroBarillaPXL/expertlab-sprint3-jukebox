@@ -90,15 +90,39 @@ window.onSpotifyWebPlaybackSDKReady = () => {
     };
 
     document.getElementById('search').onclick = async () => {
-        // get uri of song
         const searchQuery = document.getElementById('song-search').value;
-        const trackUri = await fetch(`${apiUrl}/search?q=${searchQuery}`)
-            .then(response => response.json())
-            .then(data => data.uri);
-
-        // play song uri on device
+        const searchLimit = document.getElementById('search-limit').value || 3;
         const deviceId = localStorage.getItem('device_id'); // Retrieve device ID
-        fetch(`${apiUrl}/play?uri=${trackUri}&device_id=${deviceId}`); // Pass device ID to backend
+        const response = await fetch(`${apiUrl}/search?q=${searchQuery}&n=${searchLimit}`);
+        const data = await response.json();
+
+        const trackUris = Array.isArray(data.uris) ? data.uris : [];
+        const searchResultContainer = document.getElementById('search-results');
+        searchResultContainer.innerHTML = '';
+        for (const uri of trackUris) {
+            const trackContainer = document.createElement('div');
+            const trackInfo = document.createElement('div');
+            const id = uri.split(':')[2];
+            const songResponse  = await fetch(`${apiUrl}/song?uri=${id}`);
+            const { songInfo } = await songResponse.json();
+            trackInfo.className = 'track-item';
+            trackInfo.innerText = `${songInfo.name} - ${songInfo.artists[0].name} - ${songInfo.album.name} - ${formatTime(songInfo.duration_ms)}`;
+            const trackPlayButton = document.createElement('button');
+            trackPlayButton.innerText = 'Play';
+            trackPlayButton.className ='play-button';
+            trackPlayButton.onclick = () => {
+                fetch(`${apiUrl}/play?uri=${uri}&device_id=${deviceId}`);
+            };
+            const trackImage = document.createElement('img');
+            trackImage.src = songInfo.imgUrl;
+            trackImage.className = 'track-image';
+            trackImage.style.width = '100px';
+        
+            trackContainer.appendChild(trackInfo);
+            trackContainer.appendChild(trackImage);
+            trackContainer.appendChild(trackPlayButton);
+            searchResultContainer.appendChild(trackContainer);
+        };
     }
 
     player.connect();
