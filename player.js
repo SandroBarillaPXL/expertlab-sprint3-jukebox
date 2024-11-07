@@ -163,7 +163,7 @@ function formatTime(ms) {
     return `${minutes}:${seconds}`;
 }
 
-document.getElementById('reload creds').onclick = () => {
+document.getElementById('reload auth').onclick = () => {
     localStorage.removeItem('spotifyAccessToken');
     window.location = `${apiUrl}/login`;
 }
