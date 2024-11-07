@@ -113,6 +113,12 @@ window.onSpotifyWebPlaybackSDKReady = () => {
             trackPlayButton.onclick = () => {
                 fetch(`${apiUrl}/play?uri=${uri}&device_id=${deviceId}`);
             };
+            const trackQueueButton = document.createElement('button');
+            trackQueueButton.innerText = 'Add to queue';
+            trackQueueButton.className ='queue-button';
+            trackQueueButton.onclick = () => {
+                fetch(`${apiUrl}/queue?uri=${uri}`);
+            };
             const trackImage = document.createElement('img');
             trackImage.src = songInfo.imgUrl;
             trackImage.className = 'track-image';
@@ -121,6 +127,7 @@ window.onSpotifyWebPlaybackSDKReady = () => {
             trackContainer.appendChild(trackInfo);
             trackContainer.appendChild(trackImage);
             trackContainer.appendChild(trackPlayButton);
+            trackContainer.appendChild(trackQueueButton);
             searchResultContainer.appendChild(trackContainer);
         };
     }

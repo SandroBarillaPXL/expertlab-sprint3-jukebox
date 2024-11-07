@@ -81,18 +81,6 @@ app.get('/search', (req, res) => {
     });
 });
 
-// ## PLAY ##
-app.get('/play', (req, res) => {
-    const { uri, device_id } = req.query;
-    spotifyApi.transferMyPlayback([device_id])
-    .then(() => spotifyApi.play({ uris: [uri], device_id: device_id }))
-    .then(() => res.send('Playback started'))
-    .catch(err => {
-        console.error('Play Error:', err);
-        res.send('Error occurred during playback');
-    });
-});
-
 // ## SONG INFO ##
 app.get('/song', (req, res) => {
     const uri = req.query.uri;
@@ -105,6 +93,29 @@ app.get('/song', (req, res) => {
     }).catch(err => {
         console.error('Song Info Error:', err);
         res.send('Error occurred during song info retrieval');
+    });
+});
+
+// ## PLAY ##
+app.get('/play', (req, res) => {
+    const { uri, device_id } = req.query;
+    spotifyApi.transferMyPlayback([device_id])
+    .then(() => spotifyApi.play({ uris: [uri], device_id: device_id }))
+    .then(() => res.send('Playback started'))
+    .catch(err => {
+        console.error('Play Error:', err);
+        res.send('Error occurred during playback');
+    });
+});
+
+// ## QUEUE ##
+app.get('/queue', (req, res) => {
+    const { uri } = req.query;
+    spotifyApi.addToQueue(uri)
+    .then(() => res.send('Track added to queue'))
+    .catch(err => {
+        console.error('Queue Error:', err);
+        res.send('Error occurred during queueing');
     });
 });
 
