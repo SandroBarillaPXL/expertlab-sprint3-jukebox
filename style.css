@@ -67,7 +67,6 @@ body {
     border-radius: 2px;
     background-color: #b3b3b3;
     outline: none;
-    overflow: hidden;
     cursor: pointer;
 }
 
@@ -78,29 +77,14 @@ body {
     background-color: #1db954;
     border-radius: 50%;
     cursor: pointer;
-    margin-top: -2px; /* Centers the bullet point on the track */
 }
 
-#progress-bar::-moz-range-thumb {
-    width: 8px; /* Smaller size for bullet point */
-    height: 8px;
-    background-color: red;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-/* To style the progress bar fill color dynamically */
-#progress-bar::-webkit-slider-runnable-track {
-    height: 4px;
-}
 #progress-bar::-moz-range-progress {
     background-color: #1db954; /* Left-side color */
 }
 #progress-bar::-moz-range-track {
     background-color: #b3b3b3;
 }
-
-
 
 #controls {
     display: flex;
