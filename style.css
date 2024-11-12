@@ -11,7 +11,6 @@ body {
     align-items: center;
     background-color: #1d1d1d;
     color: #f1f1f1;
-    height: 100vh;
     margin: 0;
 }
 
@@ -191,6 +190,10 @@ body {
     border-radius: 4px;
     color: white;
     cursor: pointer;
+}
+
+button {
+    margin: 3px;
 }
 
 .play-button:hover, .pause-button, .queue-button:hover {
