@@ -74,7 +74,8 @@ window.onSpotifyWebPlaybackSDKReady = () => {
         durationTime.innerText = formatTime(trackDuration);
 
         // Update seek bar position
-        updateSeekBar(state.position, trackDuration); 
+        updateSeekBar(state.position, trackDuration);
+        updatePlayButton(state.paused); 
     });
 
     document.getElementById('togglePlay').onclick = function() {
@@ -153,6 +154,17 @@ window.onSpotifyWebPlaybackSDKReady = () => {
         const percentage = (position / duration) * 100;
         seekBar.value = percentage;
         currentTime.innerText = formatTime(position);
+        seekBar.style.background = `linear-gradient(to right, #1db954 ${percentage}%, #b3b3b3 ${percentage}%)`;
+    }
+
+    // Update play button UI based on the current playback state
+    function updatePlayButton(paused) {
+        const playButton = document.getElementById("togglePlay");
+        if (paused) {
+            playButton.classList = "play-button control-button";
+        } else {
+            playButton.classList = "pause-button control-button";
+        }
     }
 }
 
@@ -163,7 +175,7 @@ function formatTime(ms) {
     return `${minutes}:${seconds}`;
 }
 
-document.getElementById('reload auth').onclick = () => {
+document.getElementById("reload-auth").onclick = () => {
     localStorage.removeItem('spotifyAccessToken');
     window.location = `${apiUrl}/login`;
 }

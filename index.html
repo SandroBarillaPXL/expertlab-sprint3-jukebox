@@ -7,26 +7,36 @@
     <script src="https://sdk.scdn.co/spotify-player.js"></script>
     <script src="player.js" type="module" defer></script>
     <link rel="icon" href="imgs/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="music-player">
         <div id="player">
-            <img id="player-image" src="imgs/cover.png" alt="Album Artwork" style="width: 200px;;">
-            <h2 id="player-song">Song Name</h2>
-            <h3 id="player-artist">Artist Name</h3>
-            <span id="current-time">0:00</span><input type="range" id="progress-bar" min="0" max="100" value="0"><span id="duration">0:00</span>
+            <div id="album-artwork">
+                <img id="player-image" src="imgs/cover.png" alt="Album Artwork">
+            </div>
+            <div id="track-info">
+                <h2 id="player-song">Song Name</h2>
+                <h3 id="player-artist">Artist Name</h3>
+            </div>
+            <div id="progress-container">
+                <span id="current-time">0:00</span>
+                <input type="range" id="progress-bar" min="0" max="100" value="0">
+                <span id="duration">0:00</span>
+            </div>
         </div>
         <div id="controls">
-            <button id="previous">Previous</button>
-            <button id="togglePlay">Toggle Play</button>
-            <button id="next">Next</button>            
-            <br><br>
+            <button id="previous" class="control-button"></button>
+            <button id="togglePlay" class="play-button control-button"></button>
+            <button id="next" class="control-button"></button>   
+        </div>
+        <div id="search-container">
             <input type="text" id="song-search" placeholder="Search for a song">
             <input type="number" id="search-limit" placeholder="Limit (default is 3)">
             <button id="search">Search</button>
         </div>
         <div id="search-results"></div>
-        <button id="reload auth">Reload token</button>
+        <button id="reload-auth">Reload token</button>
     </div>
 </body>
 </html>
