@@ -166,6 +166,33 @@ window.onSpotifyWebPlaybackSDKReady = () => {
             playButton.classList = "pause-button control-button";
         }
     }
+    
+    document.getElementById("qr").onclick = () => {
+        player.getCurrentState().then(async state => {
+            if (!state) return;
+            const id = state.track_window.current_track.uri.split(':')[2];
+            const songResponse  = await fetch(`${apiUrl}/song?uri=${id}`);
+            const { songInfo } = await songResponse.json();
+            const url = songInfo.external_urls.spotify;
+            const qrCodeContainer = document.createElement('div');
+            qrCodeContainer.id = 'qr-code-container';
+    
+            const qrCodeImage = document.createElement('img');
+            qrCodeImage.src = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(url)}&size=100x100`;
+            qrCodeContainer.appendChild(qrCodeImage);
+            qrCodeContainer.innerHTML += `<p>Scan the QR code to open the song in your Spotify app.</p>`;
+    
+            const closeButton = document.createElement('button');
+            closeButton.innerText = 'Close';
+            closeButton.id = 'close-qr';
+            closeButton.onclick = () => {
+                document.body.removeChild(qrCodeContainer);
+            };
+            qrCodeContainer.appendChild(closeButton);
+    
+            document.body.appendChild(qrCodeContainer);
+        });
+    };
 }
 
 // Format time from milliseconds to MM:SS

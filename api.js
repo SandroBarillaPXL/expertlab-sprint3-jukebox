@@ -86,9 +86,9 @@ app.get('/song', (req, res) => {
     const uri = req.query.uri;
     spotifyApi.getTrack(uri)
     .then(songData => {
-        const { name, artists, album, duration_ms } = songData.body;
+        const { name, artists, album, duration_ms, external_urls } = songData.body;
         const imgUrl = album.images[0].url;
-        const songInfo = { name, artists, album, duration_ms, imgUrl};
+        const songInfo = { name, artists, album, duration_ms, imgUrl, external_urls };
         res.send({songInfo: songInfo});
     }).catch(err => {
         console.error('Song Info Error:', err);
