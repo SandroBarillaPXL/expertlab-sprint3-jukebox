@@ -134,60 +134,63 @@ window.onSpotifyWebPlaybackSDKReady = () => {
     }
 
     document.getElementById('queue').onclick = async () => {
-        console.log('Queue clicked');
-        const response = await fetch(`${apiUrl}/getqueue`);
-        const data = await response.json();
-        const queue = Array.isArray(data.queue) ? data.queue : [];
-        console.log(queue);
-        const queueContainer = document.createElement('div');
-        queueContainer.id = 'qr-code-container';
-        queueContainer.innerHTML = '';
-        for (const uri of queue) {
-            console.log(uri);
-            const trackContainer = document.createElement('div');
-            const trackInfo = document.createElement('div');
-            const id = uri.split(':')[2];
-            const songResponse  = await fetch(`${apiUrl}/song?uri=${id}`);
-            const { songInfo } = await songResponse.json();
-            trackInfo.className = 'track-item';
-            trackInfo.innerText = `${songInfo.name} - ${songInfo.artists[0].name} - ${songInfo.album.name} - ${formatTime(songInfo.duration_ms)}`;
-            const trackPlayButton = document.createElement('button');
-            trackPlayButton.innerText = 'Play';
-            trackPlayButton.className ='play-button';
-            trackPlayButton.onclick = () => {
-                fetch(`${apiUrl}/play?uri=${uri}`);
-            };
-            const trackQueueButton = document.createElement('button');
-            trackQueueButton.innerText = 'Add to queue';
-            trackQueueButton.className ='queue-button';
-            trackQueueButton.onclick = () => {
-                fetch(`${apiUrl}/addqueue?uri=${uri}`);
-            };
-            const removeQueueButton = document.createElement('button');
-            removeQueueButton.innerText = 'Remove from queue';
-            removeQueueButton.className ='queue-button';
-            removeQueueButton.onclick = () => {
-                fetch(`${apiUrl}/removequeue?uri=${uri}`);
-            };
-            const trackImage = document.createElement('img');
-            trackImage.src = songInfo.imgUrl;
-            trackImage.className = 'track-image';
-            trackImage.style.width = '100px';
+        const queueUrl = 'https://api.spotify.com/v1/me/player/queue';
+        try {
+            const response = await fetch(queueUrl, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${storedToken}`
+                }
+            });
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} ${response.statusText}`);
+            }
+            const queueData = await response.json();
+            console.log(response);
+            console.log(queueData);
+            const queueContainer = document.createElement('div');
+            queueContainer.id = 'qr-code-container';
+            queueContainer.innerHTML = '';
+            for (const item of queueData.queue) {
+                const uri = item.uri;
+                const trackContainer = document.createElement('div');
+                
+                const trackInfo = document.createElement('div');
+                const id = uri.split(':')[2];
+                const songResponse  = await fetch(`${apiUrl}/song?uri=${id}`);
+                const { songInfo } = await songResponse.json();
+                trackInfo.className = 'track-item';
+                trackInfo.innerText = `${songInfo.name} - ${songInfo.artists[0].name} - ${songInfo.album.name} - ${formatTime(songInfo.duration_ms)}`;
+                
+                const trackPlayButton = document.createElement('button');
+                trackPlayButton.innerText = 'Play';
+                trackPlayButton.className ='play-button';
+                trackPlayButton.onclick = () => {
+                    fetch(`${apiUrl}/play?uri=${uri}`);
+                    document.body.removeChild(queueContainer);
+                };
 
-            const closeButton = document.createElement('button');
-            closeButton.innerText = 'Close';
-            closeButton.id = 'close-qr';
-            closeButton.onclick = () => {
-                document.body.removeChild(queueContainer);
+                const trackImage = document.createElement('img');
+                trackImage.src = songInfo.imgUrl;
+                trackImage.className = 'track-image';
+                trackImage.style.width = '100px';
+                
+                trackContainer.appendChild(trackInfo);
+                trackContainer.appendChild(trackImage);
+                trackContainer.appendChild(trackPlayButton);
+                queueContainer.appendChild(trackContainer);
             };
+            const closeButton = document.createElement('button');
+                closeButton.innerText = 'Close';
+                closeButton.id = 'close-qr';
+                closeButton.onclick = () => {
+                    document.body.removeChild(queueContainer);
+                };
             queueContainer.appendChild(closeButton);
-        
-            trackContainer.appendChild(trackInfo);
-            trackContainer.appendChild(trackImage);
-            trackContainer.appendChild(trackPlayButton);
-            trackContainer.appendChild(trackQueueButton);
-            queueContainer.appendChild(trackContainer);    
-        };
+            document.body.appendChild(queueContainer);  
+        } catch (error) {
+            console.error('Failed to fetch Spotify queue:', error);
+        }
     }
 
     player.connect();
