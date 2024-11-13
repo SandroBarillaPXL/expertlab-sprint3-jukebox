@@ -122,6 +122,10 @@ body {
     background-image: url('imgs/next.png');
 }
 
+#qr {
+    background-image: url('imgs/qr.png');
+}
+
 #search-container {
     display: flex;
     gap: 10px;
