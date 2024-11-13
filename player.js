@@ -1,4 +1,5 @@
-const apiUrl = "http://localhost:8888"
+import config from '../config.js';
+const apiUrl = config.apiUrl;
 
 // Clear any existing token from localStorage on page load 
 // before extracting token from URL and store it in localStorage
