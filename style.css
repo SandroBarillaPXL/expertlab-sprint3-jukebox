@@ -204,6 +204,10 @@ button {
     background-color: #9000ffb5;
 }
 
+.queue-button.active {
+    background-color: #4CAF50
+}
+
 #close-qr {
     display: block;
     width: 100%;

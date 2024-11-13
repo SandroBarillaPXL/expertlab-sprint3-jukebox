@@ -122,6 +122,19 @@ window.onSpotifyWebPlaybackSDKReady = () => {
             trackQueueButton.className ='queue-button';
             trackQueueButton.onclick = () => {
                 fetch(`${apiUrl}/queue?uri=${uri}`);
+                trackQueueButton.innerText = 'Song added!';
+                trackQueueButton.classList.add('active');
+                const checkMark = document.createElement('img');
+                checkMark.src = 'imgs/checkmark.png';
+                checkMark.style.width = '20px';
+                checkMark.style.height = '20px';
+                checkMark.style.verticalAlign = 'middle';
+                trackContainer.appendChild(checkMark);
+                setTimeout(() => {
+                    trackQueueButton.innerText = 'Add to queue';
+                    trackQueueButton.classList.remove('active');
+                    trackContainer.removeChild(checkMark);
+                }, 1500);
             };
             const trackImage = document.createElement('img');
             trackImage.src = songInfo.imgUrl;
