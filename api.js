@@ -109,13 +109,35 @@ app.get('/play', (req, res) => {
 });
 
 // ## QUEUE ##
-app.get('/queue', (req, res) => {
+app.get('/addqueue', (req, res) => {
     const { uri } = req.query;
     spotifyApi.addToQueue(uri)
     .then(() => res.send('Track added to queue'))
     .catch(err => {
         console.error('Queue Error:', err);
         res.send('Error occurred during queueing');
+    });
+});
+
+app.get('/getqueue', (req, res) => {
+    spotifyApi.getMyCurrentPlaybackState()
+    .then(data => {
+        console.log(data.body);
+        const queue = data.body.queue;
+        res.send({ queue: queue });
+    }).catch(err => {
+        console.error('Queue Error:', err);
+        res.send('Error occurred during queue retrieval');
+    });
+});
+
+app.get('/removequeue', (req, res) => {
+    const { uri } = req.query;
+    spotifyApi.removeFromQueue(uri)
+    .then(() => res.send('Track removed from queue'))
+    .catch(err => {
+        console.error('Remove Error:', err);
+        res.send('Error occurred during removal');
     });
 });
 
