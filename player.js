@@ -154,7 +154,7 @@ window.onSpotifyWebPlaybackSDKReady = () => {
         const percentage = (position / duration) * 100;
         seekBar.value = percentage;
         currentTime.innerText = formatTime(position);
-        seekBar.style.background = `linear-gradient(to right, #1db954 ${percentage}%, #b3b3b3 ${percentage}%)`;
+        seekBar.style.background = `linear-gradient(to right, #9000FF ${percentage}%, #b3b3b3 ${percentage}%)`;
     }
 
     // Update play button UI based on the current playback state
