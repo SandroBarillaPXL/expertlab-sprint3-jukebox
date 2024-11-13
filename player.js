@@ -1,6 +1,8 @@
 const apiUrl = "http://localhost:8888"
 
-// Extract token from URL and store it in localStorage
+// Clear any existing token from localStorage on page load 
+// before extracting token from URL and store it in localStorage
+localStorage.removeItem('spotifyAccessToken');
 const params = new URLSearchParams(window.location.search);
 const token = params.get('access_token');
 
@@ -11,6 +13,7 @@ let trackDuration = 0; // Store duration of the current track in milliseconds
 
 if (token) {
     localStorage.setItem('spotifyAccessToken', token);
+    window.history.replaceState({}, document.title, "/"); // Clean up the URL
 }
 
 window.onload = function() {
@@ -200,9 +203,4 @@ function formatTime(ms) {
     const minutes = Math.floor(ms / 60000);
     const seconds = Math.floor((ms % 60000) / 1000).toString().padStart(2, '0');
     return `${minutes}:${seconds}`;
-}
-
-document.getElementById("reload-auth").onclick = () => {
-    localStorage.removeItem('spotifyAccessToken');
-    window.location = `${apiUrl}/login`;
 }

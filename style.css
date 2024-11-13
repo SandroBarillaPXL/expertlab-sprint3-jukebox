@@ -204,7 +204,7 @@ button {
     background-color: #9000ffb5;
 }
 
-#reload-auth, #close-qr {
+#close-qr {
     display: block;
     width: 100%;
     padding: 8px;
@@ -218,7 +218,7 @@ button {
     text-align: center;
 }
 
-#reload-auth:hover, #close-qr:hover {
+#close-qr:hover {
     background-color: #d4d4d4;
 }
 
