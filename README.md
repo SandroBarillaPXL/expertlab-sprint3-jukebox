@@ -2,13 +2,13 @@
 This repository serves as a PoC of Spotify's Web API and Web Playback SDK 
 
 ## :computer: App: Spotify Jukebox
-This app allows users to search for songs, artists, and albums using Spotify's Web API. The user can play the songs in the browser using the Web Playback SDK or add them to the queue. Users can also request a QR-code to play the currnetly playing song on their mobile device.<br><br>
+This app allows users to search for songs, artists, and albums using Spotify's Web API. The user can play the songs in the browser using the Web Playback SDK or add them to the queue. Users can also request a QR-code to play the currently playing song on their mobile device.<br><br>
 <img src="imgs/img1.png" alt="Spotify Jukebox" width="200"/>
 <img src="imgs/img2.png" alt="Spotify Jukebox" width="200"/><br>
 
 
 ## :wrench: Installation
-### :gear: Prerequisites {#Prerequisites}
+### :gear: Prerequisites
 - [ ] Have a Spotify account with a premium subscription
 - [ ] Create a Spotify app in the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/applications)
   - [ ] Save the `Client ID` and `Client Secret` for later use
@@ -38,7 +38,7 @@ npm install
 ```bash
 node api.js
 ```
-4. Start the frontend with a simple HTTP server of your choice, like the "live server" extension in Visual Studio Code for local use. Make sure the frontend is accessible at `http://localhost:5500` (or the same URL you send your callbacks to. see [Prerequisites](#Prerequisites)).
+4. Start the frontend with a simple HTTP server of your choice, like the "live server" extension in Visual Studio Code for local use. Make sure the frontend is accessible at `http://localhost:5500` (or the same URL you send your callbacks to. See [Prerequisites](#Prerequisites)).
 <br>
 
 ### :whale: Docker installation
