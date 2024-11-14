@@ -21,8 +21,8 @@ This app allows users to search for songs, artists, and albums using Spotify's W
     API_URL=http://localhost:8888
     CLIENT_URL=http://localhost:5500
     ```
-- [ ] Check the `config.js` file in the `frontend` directory and make sure the apiUrl matches the `API_URL` in the `.env` file
-- [ ] The scopes for authentication are set in the `api.js` file. Choose 'user-read-private', 'user-read-email', 'user-read-playback-state', 'user-modify-playback-state', 'streaming'. You can find more scopes in the [Spotify Web API documentation](https://developer.spotify.com/documentation/general/guides/scopes/)
+- [ ] Check the [`config.js`](./config.js) file and make sure the apiUrl matches the `API_URL` in the `.env` file
+- [ ] The scopes for authentication are set in the [`api.js`](api.js) file. Choose `'user-read-private', 'user-read-email', 'user-read-playback-state', 'user-modify-playback-state', 'streaming'`. You can find more scopes in the [Spotify Web API documentation](https://developer.spotify.com/documentation/general/guides/scopes/)
 
 ### :bust_in_silhouette: Manual installation
 1. Clone this repository and navigate to the directory
