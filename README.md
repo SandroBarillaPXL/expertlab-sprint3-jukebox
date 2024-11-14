@@ -38,7 +38,7 @@ npm install
 ```bash
 node api.js
 ```
-4. Start the frontend with a simple HTTP server of your choice, like the "live server" extension in Visual Studio Code for local use. Make sure the frontend is accessible at `http://localhost:5500` (or the same URL you send your callbacks to. See [Prerequisites](#Prerequisites)).
+4. Start the frontend with a simple HTTP server of your choice, like the "live server" extension in Visual Studio Code for local use. Make sure the frontend is accessible at `http://localhost:5500` (or the same URL you send your callbacks to. See [Prerequisites](https://github.com/SandroBarillaPXL/expertlab-sprint3-jukebox?tab=readme-ov-file#gear-prerequisites)).
 <br>
 
 ### :whale: Docker installation
